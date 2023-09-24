@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Register the History</h4>
+<div class="col-6">
+    <form action="#" th:action="@{/carView/create}" th:object="${car}" method="post">
+        <div class="form-group">
+            <label for="model">Model:</label>
+            <input class="form-control" type="text" th:field="*{model}" placeholder="Model" id="model">
+            <label for="registrationNumber">RegistrationNumber:</label>
+            <input class="form-control" type="text" th:field="*{registrationNumber}" id="registrationNumber">
+            <label for="yearOfProduction">yearOfProduction:</label>
+            <input class="form-control" type="date" th:field="*{yearOfProduction}" placeholder="YearOfProduction"
+                   id="yearOfProduction">
+            <label for="brand">Brand:</label>
+            <select class="form-control" th:field="${car.brand}" id="brand">
+                <option value="">Select Brand</option>
+                <option th:each="brand : ${brands}" th:value="${brand.idBrands}"
+                        th:text="${brand.name}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save History</button>
+    </form>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

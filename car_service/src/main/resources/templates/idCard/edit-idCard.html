@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+
+<body>
+<header th:replace="fragments :: header"></header>
+
+<h4>IdCard edit:</h4>
+<div class="col-6">
+    <form action="#" th:action="@{/idCardView/update/{id}(id=${idCard.id})}" th:object="${idCard}" method="post">
+
+        <div class="form-group">
+            <label for="customer">Customer:</label>
+            <select class="form-control" th:field="${idCard.customer}" id="customer">
+                <option value="">Select Customer</option>
+                <option th:each="customer : ${customers}" th:value="${customer.id}"
+                        th:text="${customer.name}"></option>
+            </select>
+
+            <label for="birthdate">Birthdate:</label>
+            <input class="form-control" type="date" th:field="*{birthdate}" placeholder="Birthdate" id="birthdate">
+
+            <label for="link">link:</label>
+            <input class="form-control" type="text" th:field="*{link}" placeholder="Link" id="link">
+        </div>
+        <button type="submit" class="btn btn-primary">Update idCard</button>
+    </form>
+</div>
+</body>
+
+<footer th:replace="fragments :: footer"></footer>
+</html>

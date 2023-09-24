@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments :: head"></head>
+
+<body>
+<header th:replace="fragments :: header"></header>
+
+<h4>All Customers:</h4>
+<div class="col-6">
+    <h3 th:unless="${customers} and ${customers.size()}">There are no customers!</h3>
+    <!--    <a class="btn btn-success" th:href="@{/customerView/edit-create}">Add</a>-->
+
+    <table th:if="${customers.size()>0}" class="table table-hover">
+        <th>Id</th>
+        <th>Name</th>
+        <th sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')">Edit</th>
+        <th sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')">Delete</th>
+        <tr th:each="customer : ${customers}">
+            <td th:text="${customer.id}"></td>
+            <td th:text="${customer.name}"></td>
+            <td><a class="btn btn-info"
+                   th:href="@{'/customerView/edit/'+${customer.id}}"
+                   sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')">Edit</a></td>
+            <td><a class="btn btn-danger" th:href="@{'/customerView/delete/'+${customer.id}}"
+                   sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')">Delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+
+<footer th:replace="fragments :: footer"></footer>
+</html>

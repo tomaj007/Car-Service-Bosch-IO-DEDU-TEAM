@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments :: head"></head>
+
+<body>
+<header th:replace="fragments :: header"></header>
+
+<h4 sec:authorize="hasAnyAuthority('CUSTOMER')">Your personal information:</h4>
+<h4 sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE','EMPLOYEE')">All IdCards:</h4>
+<div class="col-6">
+    <!--    <a sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE','EMPLOYEE')" class="btn btn-success" th:href="@{'/idCardView/create-idCard/'}">Add</a>-->
+    <h3 th:unless="${idCards} and ${idCards.size()}">There are no idCards!</h3>
+    <table th:if="${idCards.size()>0}" class="table table-hover">
+        <th>Id</th>
+        <th>Customer</th>
+        <th>Birthdate</th>
+        <th sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')">Edit</th>
+        <th sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')">Delete</th>
+        <tr th:each="idCard : ${idCards}">
+            <td th:text="${idCard.id}"></td>
+            <td th:text="${idCard.customer.name}"></td>
+            <td th:text="${idCard.birthdate}"></td>
+            <td sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')"><a class="btn btn-info"
+                                                                                  th:href="@{'/idCardView/edit/'+${idCard.id}}">Edit</a>
+            </td>
+            <td sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')"><a class="btn btn-danger"
+                                                                                  th:href="@{'/idCardView/delete/'+${idCard.id}}">Delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+
+<footer th:replace="fragments :: footer"></footer>
+</html>

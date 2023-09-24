@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+
+<body>
+<header th:replace="fragments :: header"></header>
+
+<h4>Type of service edit:</h4>
+<div class="col-6">
+    <form action="#" th:action="@{/typeOfServiceView/update/{id}(id=${typeOfService.idTypeOfService})}"
+          th:object="${typeOfService}" method="post">
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <input class="form-control" type="text" th:field="*{description}" placeholder="Description"
+                   id="description">
+            <label for="price">Price:</label>
+            <input class="form-control" type="text" th:field="*{price}" placeholder="Price" id="price">
+            <label for="type">Type:</label>
+            <input class="form-control" type="text" th:field="*{type}" placeholder="Type" id="type">
+        </div>
+        <button type="submit" class="btn btn-primary">Update type of service</button>
+    </form>
+</div>
+</body>
+
+<footer th:replace="fragments :: footer"></footer>

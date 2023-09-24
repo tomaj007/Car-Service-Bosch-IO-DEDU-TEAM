@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<h4>Create overcharge</h4>
+<div class="col-6">
+    <form action="#" th:action="@{/typeOfServicePriceOverchargeView/create}" th:object="${typeOfServicePriceOvercharge}"
+          method="post">
+        <div class="form-group">
+            <label for="brandOvercharge">Price:</label>
+            <input class="form-control" type="text" th:field="*{brandOvercharge}" placeholder="Price"
+                   id="brandOvercharge">
+            <label for="brand">Brand</label>
+            <!--            <input class="form-control" type="text" th:field="*{brand}" placeholder="Brand" id="brand">-->
+            <select class="form-control" th:field="${typeOfServicePriceOvercharge.brand}" id="brand">
+                <option value="">Select Brand</option>
+                <option th:each="brand : ${brands}" th:value="${brand.idBrands}"
+                        th:text="${brand.name}"></option>
+            </select>
+            <label for="typeOfService">Type Of Service</label>
+            <!--            <input class="form-control" type="text" th:field="*{typeOfService}" placeholder="TypeOfService" id="typeOfService">-->
+            <select class="form-control" th:field="${typeOfServicePriceOvercharge.typeOfService}" id="typeOfService">
+                <option value="">Select Type Of Service</option>
+                <option th:each="typeOfService : ${typeOfServices}" th:value="${typeOfService.idTypeOfService}"
+                        th:text="${typeOfService.type}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Brand</button>
+    </form>
+</div>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

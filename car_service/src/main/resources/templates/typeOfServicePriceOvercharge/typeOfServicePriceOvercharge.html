@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments :: head"></head>
+
+<body>
+<header th:replace="fragments :: header"></header>
+
+<h4 sec:authorize="hasAnyAuthority('CUSTOMER')">These are all the price overcharges:</h4>
+<h4 sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE','EMPLOYEE')">All Price overcharges :</h4>
+<div class="col-6">
+    <a class="btn btn-success" sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')"
+       th:href="@{'/typeOfServicePriceOverchargeView/create-type-of-service-price-overcharge/'}">Add</a>
+    <h3 th:unless="${typeOfServicePriceOvercharges} and ${typeOfServicePriceOvercharges.size()}">There are no price
+        overcharges!</h3>
+    <table th:if="${typeOfServicePriceOvercharges.size()>0}" class="table table-hover">
+        <th>Id</th>
+        <th>Price</th>
+        <th>Brand</th>
+        <th>Type Of Service</th>
+        <th sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')">Edit</th>
+        <th sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')">Delete</th>
+        <tr th:each="typeOfServicePriceOvercharge : ${typeOfServicePriceOvercharges}">
+            <td th:text="${typeOfServicePriceOvercharge.id}"></td>
+            <td th:text="${typeOfServicePriceOvercharge.brandOvercharge}"></td>
+            <td th:text="${typeOfServicePriceOvercharge.brand.name}"></td>
+            <td th:text="${typeOfServicePriceOvercharge.typeOfService.type}"></td>
+            <td sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')"><a class="btn btn-info"
+                                                                                  th:href="@{'/typeOfServicePriceOverchargeView/edit/'+${typeOfServicePriceOvercharge.id}}">Edit</a>
+            </td>
+            <td sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')"><a class="btn btn-danger"
+                                                                                  th:href="@{'/typeOfServicePriceOverchargeView/delete/'+${typeOfServicePriceOvercharge.id}}">Delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+
+<footer th:replace="fragments :: footer"></footer>
+</html>

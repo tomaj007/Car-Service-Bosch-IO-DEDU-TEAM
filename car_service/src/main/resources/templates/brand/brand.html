@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments :: head"></head>
+
+<body>
+<header th:replace="fragments :: header"></header>
+
+<h4 sec:authorize="hasAnyAuthority('CUSTOMER')">Those are all the brands we support:</h4>
+<h4 sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE','EMPLOYEE')">All Brands :</h4>
+<div class="col-3">
+    <a sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')" class="btn btn-success"
+       th:href="@{'/brandView/create-brand/'}">Add</a>
+    <h3 th:unless="${brands} and ${brands.size()}">There are no brands!</h3>
+    <table th:if="${brands.size()>0}" class="table table-hover">
+        <th>Id</th>
+        <th>Name</th>
+        <th sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')">Edit</th>
+        <th sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')">Delete</th>
+        <tr th:each="brand : ${brands}">
+            <td th:text="${brand.idBrands}"></td>
+            <td th:text="${brand.name}"></td>
+            <td sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')"><a class="btn btn-info"
+                                                                                  th:href="@{'/brandView/edit/'+${brand.idBrands}}">Edit</a>
+            </td>
+            <td sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')"><a class="btn btn-danger"
+                                                                                  th:href="@{'/brandView/delete/'+${brand.idBrands}}">Delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+
+<footer th:replace="fragments :: footer"></footer>
+</html>

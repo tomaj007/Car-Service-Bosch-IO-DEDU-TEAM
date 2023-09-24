@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments :: head"></head>
+
+<body>
+<header th:replace="fragments :: header"></header>
+<h4 sec:authorize="hasAnyAuthority('CUSTOMER')">All the repairs for your cars :</h4>
+<h4 sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE','EMPLOYEE')">All Histories :</h4>
+<div class="col-6">
+    <a sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE','EMPLOYEE')" class="btn btn-success"
+       th:href="@{'/historyView/create-history/'}">Add</a>
+    <h3 th:unless="${histories} and ${histories.size()}">There are no services!</h3>
+    <table th:if="${histories.size()>0}" class="table table-hover">
+        <th>Id</th>
+        <th>DateOfRepair</th>
+        <th>IsPaid</th>
+        <th>Car</th>
+        <th sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')">Edit</th>
+        <th sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')">Delete</th>
+        <tr th:each="history : ${histories}">
+            <td th:text="${history.idHistory}"></td>
+            <td th:text="${history.dateOfRepair}"></td>
+            <td th:text="${history.isPaid}"></td>
+            <td th:text="${history.car.model}+' '+${history.car.registrationNumber}"></td>
+            <td sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')"><a class="btn btn-info"
+                                                                                  th:href="@{'/historyView/edit/'+${history.idHistory}}">Edit</a>
+            </td>
+            <td sec:authorize="hasAnyAuthority('ADMIN', 'ADMIN_AUTO_SERVICE')"><a class="btn btn-danger"
+                                                                                  th:href="@{'/historyView/delete/'+${history.idHistory}}">Delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+
+<footer th:replace="fragments :: footer"></footer>
+</html>
